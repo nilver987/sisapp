@@ -14,7 +14,7 @@ class _ProductoApi implements ProductoApi {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://172.22.2.50:8080';
+    baseUrl ??= 'http://10.80.20.38:8080';
   }
 
   final Dio _dio;

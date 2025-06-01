@@ -1,99 +1,108 @@
-
 import 'package:json_annotation/json_annotation.dart';
 
+/// Modelo principal que representa un usuario completo del backend
 @JsonSerializable()
 class UsuarioModelo {
-  late final String user;
-  late final String clave;
-  late final String rol;
+  late final String nombre;
+  late final String apellido;
+  late final String username;
+  late final String email;
+  late final String password;
+  late final List<String> roles;
   late final String estado;
 
   UsuarioModelo({
-    required this.user,
-    required this.clave,
-    required this.rol,
+    required this.nombre,
+    required this.apellido,
+    required this.username,
+    required this.email,
+    required this.password,
+    required this.roles,
     required this.estado,
   });
 
-  UsuarioModelo.login(this.user, this.clave);
-  UsuarioModelo.loginDos(this.user, this.clave):rol="", estado="";
-
-  factory UsuarioModelo.fromJson(Map<String, dynamic> json){
+  factory UsuarioModelo.fromJson(Map<String, dynamic> json) {
     return UsuarioModelo(
-      user : json['user'],
-      clave : json['clave'],
-      rol : json['rol'],
-      estado : json['estado'],
+      nombre: json['nombre'],
+      apellido: json['apellido'],
+      username: json['username'],
+      email: json['email'],
+      password: json['password'],
+      roles: List<String>.from(json['roles'].map((e) => e.toString())),
+      estado: json['estado'] ?? 'activo', // opcional, por si no se recibe
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['user'] = user;
-    _data['clave'] = clave;
-    _data['rol'] = rol;
-    _data['estado'] = estado;
-    return _data;
-  }
+  Map<String, dynamic> toJson() => {
+    'nombre': nombre,
+    'apellido': apellido,
+    'username': username,
+    'email': email,
+    'password': password,
+    'roles': roles,
+    'estado': estado,
+  };
 }
 
+/// Clase usada solo para enviar los datos de login (username y password)
 class UsuarioLogin {
   UsuarioLogin({
-    required this.user,
-    required this.clave,
+    required this.username,
+    required this.password,
   });
 
-  late final String user;
-  late final String clave;
+  late final String username;
+  late final String password;
 
-  UsuarioLogin.login(this.user, this.clave);
-
-  factory UsuarioLogin.fromJson(Map<String, dynamic> json){
+  factory UsuarioLogin.fromJson(Map<String, dynamic> json) {
     return UsuarioLogin(
-      user: json["user"],
-      clave: json["clave"],
+      username: json["username"],
+      password: json["password"],
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "user": user,
-    "clave": clave,
+    "username": username,
+    "password": password,
   };
-
 }
 
-
+/// Clase para recibir la respuesta del login (usuario + token + roles)
 class UsuarioResp {
   UsuarioResp({
-    required this.idUsuario,
-    required this.user,
+    required this.id,
+    required this.username,
     required this.estado,
     required this.token,
+    required this.roles,
   });
 
-  late final int idUsuario;
-  late final String user;
+  late final int id;
+  late final String username;
   late final String estado;
   late final String token;
+  late final List<String> roles;
 
-  factory UsuarioResp.fromJson(Map<String, dynamic> json){
+  factory UsuarioResp.fromJson(Map<String, dynamic> json) {
     return UsuarioResp(
-      idUsuario: json["idUsuario"],
-      user: json["user"],
-      estado: json["estado"],
+      id: json["id"],
+      username: json["username"],
+      estado: json["estado"] ?? "activo",
       token: json["token"],
+      roles: List<String>.from(json['roles'].map((e) => e.toString())),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    "idUsuario": idUsuario,
-    "user": user,
+    "id": id,
+    "username": username,
     "estado": estado,
     "token": token,
+    "roles": roles,
   };
 
   @override
-  String toString(){
-    return "$idUsuario, $user, $estado, $token, ";
+  String toString() {
+    return "$id, $username, $estado, $token, $roles";
   }
 }

@@ -14,7 +14,7 @@ class _UsuarioApi implements UsuarioApi {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://172.22.2.50:8080';
+    baseUrl ??= 'http://10.80.20.38:8080';
   }
 
   final Dio _dio;
@@ -37,7 +37,7 @@ class _UsuarioApi implements UsuarioApi {
     )
         .compose(
           _dio.options,
-          '/users/login',
+          '/api/auth',
           queryParameters: queryParameters,
           data: _data,
         )
